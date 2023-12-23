@@ -8,8 +8,8 @@
 #endif
 
 
-void residual(int n, const float b[], const float x[], float r[]) {
-	action(n, x, r);
+void residual(const float b[], const float x[], float r[], int n) {
+	action(x, r, n);
 
 	for (int i = 0; i < n; ++i) {
 		r[i] = b[i] - r[i];
@@ -17,14 +17,14 @@ void residual(int n, const float b[], const float x[], float r[]) {
 }
 
 
-void error(int n, const float xe[], const float x[], float e[]) {
+void error(const float xe[], const float x[], float e[], int n) {
 	for (int i = 0; i < n; ++i) {
 		e[i] = xe[i] - x[i];
 	}
 }
 
 
-double norm(int n, const float x[]) {
+double norm(const float x[], int n) {
 	double sum = 0.0;
 
 	for (int i = 0; i < n; ++i) {
@@ -35,7 +35,7 @@ double norm(int n, const float x[]) {
 }
 
 
-void setup(int n, float xe[], float b[]) {
+void setup(float xe[], float b[], int n) {
 	for (int i = 0; i < n; ++i) {
 		xe[i] = 1.0;
 	}
@@ -54,15 +54,6 @@ float d[NMAX];
 
 int main() {
 	printf("n,residual,error\n");
-
-	for (int n = 10; n <= NMAX; ++n) {
-		setup(n, xe, b);
-		solve(n, b, x, d);
-		residual(n, b, x, r);
-		error(n, xe, x, e);
-
-		printf("%d,%e,%e\n", n, norm(n, r), norm(n, e));
-	}
 
 	return 0;
 }
