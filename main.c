@@ -1,14 +1,10 @@
-#include <math.h>
 #include <stdio.h>
+#include <math.h>
+#include "config.h"
 #include "matrix.h"
 
 
-#ifndef NMAX
-#define NMAX 10000
-#endif
-
-
-void residual(const float b[], const float x[], float r[], int n) {
+void residual(const Real b[], const Real x[], Real r[], int n) {
 	action(x, r, n);
 
 	for (int i = 0; i < n; ++i) {
@@ -17,14 +13,14 @@ void residual(const float b[], const float x[], float r[], int n) {
 }
 
 
-void error(const float xe[], const float x[], float e[], int n) {
+void error(const Real xe[], const Real x[], Real e[], int n) {
 	for (int i = 0; i < n; ++i) {
 		e[i] = xe[i] - x[i];
 	}
 }
 
 
-double norm(const float x[], int n) {
+double norm(const Real x[], int n) {
 	double sum = 0.0;
 
 	for (int i = 0; i < n; ++i) {
@@ -35,25 +31,36 @@ double norm(const float x[], int n) {
 }
 
 
-void setup(float xe[], float b[], int n) {
+void setup(Real xe[], Real b[], int n) {
 	for (int i = 0; i < n; ++i) {
 		xe[i] = 1.0;
 	}
 
-	action(n, xe, b);
+	action(xe, b, n);
 }
 
 
-float xe[NMAX];
-float x[NMAX];
-float b[NMAX];
-float r[NMAX];
-float e[NMAX];
-float d[NMAX];
+Real xe[NMAX];
+Real x[NMAX];
+Real b[NMAX];
+Real r[NMAX];
+Real e[NMAX];
+Real d[NMAX];
 
 
 int main() {
 	printf("n,residual,error\n");
+
+
+	for (int n = 10; n <= NMAX; ++n) {
+		setup(xe, b, n);
+		solve(b, x, n);
+		residual(b, x, r, n);
+		error(xe, x, e, n);
+
+		printf("%d,%e,%e\n", n, norm(r,n), norm(e,n));
+	}
+
 
 	return 0;
 }

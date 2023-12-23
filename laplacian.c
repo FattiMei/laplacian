@@ -1,14 +1,26 @@
+#include "config.h"
 #include "matrix.h"
 
 
-void action(int n, const float x[], float y[]) {
+Real tmp[NMAX];
+
+
+void action(const Real x[], Real y[], int n) {
 	for (int i = 0; i < n; ++i) {
-		y[i] = x[i];
+		y[i] = 2.0 * x[i];
+
+		if (i < (n-1)) {
+			y[i] -= x[i+1];
+		}
+
+		if (i > 0) {
+			y[i] -= x[i-1];
+		}
 	}
 }
 
 
-void solve(int n, const float b[], float x[], float tmp[]) {
+void solve(const Real b[], Real x[], int n) {
 	// eliminazione
 	tmp[0] = 2.0;
 	x[0]   = b[0];
