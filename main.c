@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <math.h>
 #include "config.h"
+#include "norm.h"
 #include "matrix.h"
 
 
@@ -19,17 +19,6 @@ void error(const Real xe[], const Real x[], Real e[], int n) {
 	for (int i = 0; i < n; ++i) {
 		e[i] = xe[i] - x[i];
 	}
-}
-
-
-double norm(const Real x[], int n) {
-	double sum = 0.0;
-
-	for (int i = 0; i < n; ++i) {
-		sum += x[i] * x[i];
-	}
-
-	return sqrt(sum);
 }
 
 
