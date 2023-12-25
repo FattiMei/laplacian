@@ -5,8 +5,8 @@
 #include "config.h"
 
 
-void action(const Real x[], Real y[], int n);
-void  solve(const Real b[], Real x[], int n);
+void action(const float x[], float y[], int n);
+void  solve(const float b[], float x[], int n);
 
 
 #endif

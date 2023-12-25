@@ -2,10 +2,10 @@
 #include "matrix.h"
 
 
-Real tmp[NMAX];
+float tmp[NMAX];
 
 
-void action_naive(const Real x[], Real y[], int n) {
+void action_naive(const float x[], float y[], int n) {
 	for (int i = 0; i < n; ++i) {
 		y[i] = 2.0 * x[i];
 
@@ -20,7 +20,7 @@ void action_naive(const Real x[], Real y[], int n) {
 }
 
 
-void action(const Real x[], Real y[], int n) {
+void action(const float x[], float y[], int n) {
 	for (int i = 0; i < n; ++i) {
 		if (i == 0) {
 			y[i] = 2.0 * x[i] - x[i+1];
@@ -35,7 +35,7 @@ void action(const Real x[], Real y[], int n) {
 }
 
 
-void solve_naive(const Real b[], Real x[], int n) {
+void solve_naive(const float b[], float x[], int n) {
 	// eliminazione
 	tmp[0] = 2.0;
 	x[0]   = b[0];
@@ -54,7 +54,7 @@ void solve_naive(const Real b[], Real x[], int n) {
 }
 
 
-void solve(const Real b[], Real x[], int n) {
+void solve(const float b[], float x[], int n) {
 	// eliminazione
 	tmp[0] = 2.0;
 	x[0]   = b[0];

@@ -4,11 +4,11 @@
 
 
 int real_comparison(const void *x, const void *y) {
-	return *((Real *) x) < *((Real *) y);
+	return *((float *) x) < *((float *) y);
 }
 
 
-double norm(const Real x[], int n) {
+double norm(const float x[], int n) {
 	double sum = 0.0;
 
 	for (int i = 0; i < n; ++i) {
@@ -20,7 +20,7 @@ double norm(const Real x[], int n) {
 
 
 // this function invalidates the contents of x
-double norm_ordered(Real x[], int n) {
+double norm_ordered(float x[], int n) {
 	double sum = 0.0;
 
 
@@ -28,7 +28,7 @@ double norm_ordered(Real x[], int n) {
 		x[i] *= x[i];
 	}
 
-	qsort(x, n, sizeof(Real), &real_comparison);
+	qsort(x, n, sizeof(float), &real_comparison);
 
 	for (int i = 0; i < n; ++i) {
 		sum += (double) x[i];
@@ -38,7 +38,7 @@ double norm_ordered(Real x[], int n) {
 }
 
 
-double norm_kahan(const Real x[], int n) {
+double norm_kahan(const float x[], int n) {
 	// https://en.wikipedia.org/wiki/Kahan_summation_algorithm
 	double sum = 0.0;
 	double c = 0.0;
@@ -57,12 +57,12 @@ double norm_kahan(const Real x[], int n) {
 
 
 // this function invalidates the contents of x
-double norm_kahan_ordered(Real x[], int n) {
+double norm_kahan_ordered(float x[], int n) {
 	for (int i = 0; i < n; ++i) {
 		x[i] *= x[i];
 	}
 
-	qsort(x, n, sizeof(Real), &real_comparison);
+	qsort(x, n, sizeof(float), &real_comparison);
 
 
 	// https://en.wikipedia.org/wiki/Kahan_summation_algorithm

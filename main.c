@@ -6,7 +6,7 @@
 #include "matrix.h"
 
 
-void residual(const Real b[], const Real x[], Real r[], int n) {
+void residual(const float b[], const float x[], float r[], int n) {
 	action(x, r, n);
 
 	for (int i = 0; i < n; ++i) {
@@ -15,14 +15,14 @@ void residual(const Real b[], const Real x[], Real r[], int n) {
 }
 
 
-void error(const Real xe[], const Real x[], Real e[], int n) {
+void error(const float xe[], const float x[], float e[], int n) {
 	for (int i = 0; i < n; ++i) {
 		e[i] = xe[i] - x[i];
 	}
 }
 
 
-void setup(Real xe[], Real b[], int n) {
+void setup(float xe[], float b[], int n) {
 	for (int i = 0; i < n; ++i) {
 		xe[i] = 1.0;
 	}
@@ -31,12 +31,12 @@ void setup(Real xe[], Real b[], int n) {
 }
 
 
-Real xe[NMAX];
-Real x[NMAX];
-Real b[NMAX];
-Real r[NMAX];
-Real e[NMAX];
-Real d[NMAX];
+float xe[NMAX];
+float x[NMAX];
+float b[NMAX];
+float r[NMAX];
+float e[NMAX];
+float d[NMAX];
 
 
 int main(int argc, char *argv[]) {
