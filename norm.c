@@ -8,6 +8,30 @@ int real_comparison(const void *x, const void *y) {
 }
 
 
+float normf(const float x[], int n) {
+	float sum = 0.0f;
+
+	for (int i = 0; i < n; ++i) {
+		sum += x[i] * x[i];
+	}
+
+	return sqrtf(sum);
+}
+
+
+double normd(const float x[], int n) {
+	double sum = 0.0;
+
+	for (int i = 0; i < n; ++i) {
+		const double term = x[i];
+
+		sum += term * term;
+	}
+
+	return sqrt(sum);
+}
+
+
 double norm(const float x[], int n) {
 	double sum = 0.0;
 
