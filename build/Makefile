@@ -28,3 +28,8 @@ norm: $(OBJS)
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(INCFLAGS) $(OPTFLAGS) -c -o $@ $<
+
+
+clean:
+	rm -f main
+	rm -f *.o

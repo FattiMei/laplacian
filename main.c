@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
 		residual(b, x, r, n);
 		error(xe, x, e, n);
 
-		printf("%d,%e,%e\n", n, norm(r,n), norm(e,n));
+		printf("%d,%e,%e\n", n, normd(r,n), normd(e,n));
 	}
 
 
