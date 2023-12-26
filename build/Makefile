@@ -22,5 +22,9 @@ main: $(OBJS)
 	$(CC) $(INCFLAGS) $(OPTFLAGS) -o $@ ../main.c $^ $(LIBS)
 
 
+norm: $(OBJS)
+	$(CC) $(INCFLAGS) $(OPTFLAGS) -o $@ ../norm_comparison.c $^ $(LIBS)
+
+
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(INCFLAGS) $(OPTFLAGS) -c -o $@ $<
