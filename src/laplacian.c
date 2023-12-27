@@ -1,8 +1,41 @@
 #include "config.h"
 #include "matrix.h"
+#include "laplacian.h"
 
 
 float tmp[NMAX];
+
+
+void actionf(const float x[], float y[], int n) {
+	for (int i = 0; i < n; ++i) {
+		y[i] = 2.0 * x[i];
+
+		if (i < (n-1)) {
+			y[i] -= x[i+1];
+		}
+
+		if (i > 0) {
+			y[i] -= x[i-1];
+		}
+	}
+}
+
+
+void actiond(const float x[], float y[], int n) {
+	for (int i = 0; i < n; ++i) {
+		double acc = 2.0 * x[i];
+
+		if (i < (n-1)) {
+			acc -= x[i+1];
+		}
+
+		if (i > 0) {
+			acc -= x[i-1];
+		}
+
+		y[i] = (float) acc;
+	}
+}
 
 
 void action_naive(const float x[], float y[], int n) {
