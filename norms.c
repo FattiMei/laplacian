@@ -15,9 +15,9 @@ int main(int argc, char *argv[]) {
 	printf("n,normf,normd,normf_ordered\n");
 
 	for (int n = 10; n <= NMAX; ++n) {
-		setup(xe, b, n);
+		setup(action, xe, b, n);
 		solve(b, x, n);
-		residual(b, x, r, n);
+		residual(action, b, x, r, n);
 
 		printf("%d,", n);
 		printf("%e,", normf(r,n));
