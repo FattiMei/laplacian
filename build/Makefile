@@ -25,6 +25,9 @@ main: $(OBJS)
 norm: $(OBJS)
 	$(CC) $(INCFLAGS) $(OPTFLAGS) -o $@ ../norms.c $^ $(LIBS)
 
+residual: $(OBJS)
+	$(CC) $(INCFLAGS) $(OPTFLAGS) -o $@ ../residuals.c $^ $(LIBS)
+
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(INCFLAGS) $(OPTFLAGS) -c -o $@ $<

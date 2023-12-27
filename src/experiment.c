@@ -1,5 +1,4 @@
 #include "experiment.h"
-#include "matrix.h"
 
 
 void residual(void (*action)(const float x[], float y[], int n), const float b[], const float x[], float r[], int n) {

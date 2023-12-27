@@ -21,6 +21,21 @@ void actionf(const float x[], float y[], int n) {
 }
 
 
+void actionf_reordered(const float x[], float y[], int n) {
+	for (int i = 0; i < n; ++i) {
+		if (i == 0) {
+			y[i] = 2.0 * x[i] - x[i+1];
+		}
+		else if (i == n-1) {
+			y[i] = 2.0 * x[i] - x[i-1];
+		}
+		else {
+			y[i] = 2.0 * x[i] - (x[i-1] + x[i+1]);
+		}
+	}
+}
+
+
 void actiond(const float x[], float y[], int n) {
 	for (int i = 0; i < n; ++i) {
 		double acc = 2.0 * x[i];
@@ -38,32 +53,24 @@ void actiond(const float x[], float y[], int n) {
 }
 
 
-void action_naive(const float x[], float y[], int n) {
+void actiond_reordered(const float x[], float y[], int n) {
 	for (int i = 0; i < n; ++i) {
-		y[i] = 2.0 * x[i];
+		double acc = 2.0 * x[i];
 
-		if (i < (n-1)) {
-			y[i] -= x[i+1];
-		}
-
-		if (i > 0) {
-			y[i] -= x[i-1];
-		}
-	}
-}
-
-
-void action(const float x[], float y[], int n) {
-	for (int i = 0; i < n; ++i) {
 		if (i == 0) {
-			y[i] = 2.0 * x[i] - x[i+1];
+			acc -= x[i+1];
 		}
-		else if (i == (n-1)) {
-			y[i] = 2.0 * x[i] - x[i-1];
+		else if (i == n-1) {
+			acc -= x[i-1];
 		}
 		else {
-			y[i] = 2.0 * x[i] - (x[i-1] + x[i+1]);
+			const double pred = x[i-1];
+			const double succ = x[i+1];
+
+			acc -= (pred + succ);
 		}
+
+		y[i] = (float) acc;
 	}
 }
 

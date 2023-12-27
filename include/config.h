@@ -1,3 +1,3 @@
 #ifndef NMAX
-#define NMAX 1000
+#define NMAX 10000
 #endif
