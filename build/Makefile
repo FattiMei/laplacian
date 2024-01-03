@@ -25,8 +25,13 @@ main: $(OBJS)
 norm: $(OBJS)
 	$(CC) $(INCFLAGS) $(OPTFLAGS) -o $@ ../norms.c $^ $(LIBS)
 
+
 residual: $(OBJS)
 	$(CC) $(INCFLAGS) $(OPTFLAGS) -o $@ ../residuals.c $^ $(LIBS)
+
+
+solve: $(OBJS)
+	$(CC) $(INCFLAGS) $(OPTFLAGS) -o $@ ../solving.c $^ $(LIBS)
 
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
