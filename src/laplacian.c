@@ -8,7 +8,7 @@ float tmp[NMAX];
 
 void actionf(const float x[], float y[], int n) {
 	for (int i = 0; i < n; ++i) {
-		y[i] = 2.0 * x[i];
+		y[i] = 2.0f * x[i];
 
 		if (i < (n-1)) {
 			y[i] -= x[i+1];
@@ -24,13 +24,13 @@ void actionf(const float x[], float y[], int n) {
 void actionf_reordered(const float x[], float y[], int n) {
 	for (int i = 0; i < n; ++i) {
 		if (i == 0) {
-			y[i] = 2.0 * x[i] - x[i+1];
+			y[i] = 2.0f * x[i] - x[i+1];
 		}
 		else if (i == n-1) {
-			y[i] = 2.0 * x[i] - x[i-1];
+			y[i] = 2.0f * x[i] - x[i-1];
 		}
 		else {
-			y[i] = 2.0 * x[i] - (x[i-1] + x[i+1]);
+			y[i] = 2.0f * x[i] - (x[i-1] + x[i+1]);
 		}
 	}
 }
@@ -38,7 +38,7 @@ void actionf_reordered(const float x[], float y[], int n) {
 
 void actiond(const float x[], float y[], int n) {
 	for (int i = 0; i < n; ++i) {
-		double acc = 2.0 * x[i];
+		double acc = 2.0f * x[i];
 
 		if (i < (n-1)) {
 			acc -= x[i+1];
@@ -55,7 +55,7 @@ void actiond(const float x[], float y[], int n) {
 
 void actiond_reordered(const float x[], float y[], int n) {
 	for (int i = 0; i < n; ++i) {
-		double acc = 2.0 * x[i];
+		double acc = 2.0f * x[i];
 
 		if (i == 0) {
 			acc -= x[i+1];
@@ -77,11 +77,11 @@ void actiond_reordered(const float x[], float y[], int n) {
 
 void solve_naive(const float b[], float x[], int n) {
 	// eliminazione
-	tmp[0] = 2.0;
+	tmp[0] = 2.0f;
 	x[0]   = b[0];
 
 	for (int i = 1; i < n; ++i) {
-		tmp[i] = 2.0 - 1.0 / tmp[i-1];
+		tmp[i] = 2.0f - 1.0f / tmp[i-1];
 		x[i]   = b[i] + x[i-1] / tmp[i-1];
 	}
 
@@ -96,11 +96,11 @@ void solve_naive(const float b[], float x[], int n) {
 
 void solve(const float b[], float x[], int n) {
 	// eliminazione
-	tmp[0] = 2.0;
+	tmp[0] = 2.0f;
 	x[0]   = b[0];
 
 	for (int i = 1; i < n; ++i) {
-		tmp[i] = (2.0 * tmp[i-1] - 1.0) / tmp[i-1];
+		tmp[i] = (2.0f * tmp[i-1] - 1.0f) / tmp[i-1];
 		x[i]   = b[i] + x[i-1] / tmp[i-1];
 	}
 
