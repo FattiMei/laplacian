@@ -4,6 +4,14 @@
 
 
 float tmp[NMAX];
+float upper[NMAX-1];
+
+
+void laplacian_setup(int n) {
+	for (int i = 0; i < n-1; ++i) {
+		upper[i] = -1.0f;
+	}
+}
 
 
 void actionf(const float x[], float y[], int n) {
@@ -109,5 +117,28 @@ void solve_better(const float b[], float x[], int n) {
 
 	for (int i = n-2; i >= 0; --i) {
 		x[i] = (x[i] + x[i+1]) / tmp[i];
+	}
+}
+
+
+void solve_upper(const float b[], float x[], int n) {
+	// eliminazione
+	tmp[0] = 2.0f;
+	x[0]   = b[0];
+
+
+	laplacian_setup(n);
+
+
+	for (int i = 1; i < n; ++i) {
+		tmp[i] = 2.0f + upper[i-1] / tmp[i-1];
+		x[i]   = b[i] + x[i-1] / tmp[i-1];
+	}
+
+	// sostituzione all'indietro
+	x[n-1] = x[n-1] / tmp[n-1];
+
+	for (int i = n-2; i >= 0; --i) {
+		x[i] = (x[i] - upper[i] * x[i+1]) / tmp[i];
 	}
 }

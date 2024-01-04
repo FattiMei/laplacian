@@ -13,7 +13,7 @@ float r[NMAX];
 
 
 int main(int argc, char *argv[]) {
-	printf("n,actionf,actiond,actionf_reordered\n");
+	printf("n,actionf,actiond,actionf_reordered,actiond_reordered\n");
 
 	for (int n = 10; n <= NMAX; ++n) {
 		setup(actionf, xe, b, n);
