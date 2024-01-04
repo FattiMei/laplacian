@@ -94,7 +94,7 @@ void solve_naive(const float b[], float x[], int n) {
 }
 
 
-void solve(const float b[], float x[], int n) {
+void solve_better(const float b[], float x[], int n) {
 	// eliminazione
 	tmp[0] = 2.0f;
 	x[0]   = b[0];
