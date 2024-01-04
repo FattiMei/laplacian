@@ -132,7 +132,54 @@ void solve_upper(const float b[], float x[], int n) {
 
 	for (int i = 1; i < n; ++i) {
 		tmp[i] = 2.0f + upper[i-1] / tmp[i-1];
-		x[i]   = b[i] + x[i-1] / tmp[i-1];
+
+		if (tmp[i] == tmp[i-1]) {
+			// riscalamento riga
+			tmp[i] = 2.0f * tmp[i-1];
+			upper[i] *= tmp[i-1];
+
+			// eliminazione
+			tmp[i] += upper[i-1];
+			x[i] = tmp[i-1] * b[i] + x[i-1];
+		}
+		else {
+			x[i] = b[i] + x[i-1] / tmp[i-1];
+		}
+	}
+
+	// sostituzione all'indietro
+	x[n-1] = x[n-1] / tmp[n-1];
+
+	for (int i = n-2; i >= 0; --i) {
+		x[i] = (x[i] - upper[i] * x[i+1]) / tmp[i];
+	}
+}
+
+
+void solve_upper_better(const float b[], float x[], int n) {
+	// eliminazione
+	tmp[0] = 2.0f;
+	x[0]   = b[0];
+
+
+	laplacian_setup(n);
+
+
+	for (int i = 1; i < n; ++i) {
+		tmp[i] = (2.0f * tmp[i-1] + upper[i-1]) / tmp[i-1];
+
+		if (tmp[i] == tmp[i-1]) {
+			// riscalamento riga
+			tmp[i] = 2.0f * tmp[i-1];
+			upper[i] *= tmp[i-1];
+
+			// eliminazione
+			tmp[i] += upper[i-1];
+			x[i] = tmp[i-1] * b[i] + x[i-1];
+		}
+		else {
+			x[i] = b[i] + x[i-1] / tmp[i-1];
+		}
 	}
 
 	// sostituzione all'indietro
