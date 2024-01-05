@@ -26,6 +26,21 @@ float normd(const float x[], int n) {
 }
 
 
+float norminf(const float x[], int n) {
+	float min = 0.0;
+
+	for (int i = 0; i < n; ++i) {
+		const float y = fabsf(x[i]);
+
+		if (y < min) {
+			min = y;
+		}
+	}
+
+	return min;
+}
+
+
 // default implementation
 float norm(const float x[], int n) {
 	return normd(x, n);
