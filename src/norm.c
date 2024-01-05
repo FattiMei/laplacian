@@ -1,6 +1,5 @@
 #include "config.h"
 #include <math.h>
-#include <stdlib.h>
 
 
 float normf(const float x[], int n) {
@@ -24,4 +23,10 @@ float normd(const float x[], int n) {
 	}
 
 	return (float) sqrt(sum);
+}
+
+
+// default implementation
+float norm(const float x[], int n) {
+	return normd(x, n);
 }

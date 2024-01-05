@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include "config.h"
-#include "norm.h"
 #include "matrix.h"
 #include "experiment.h"
 #include "laplacian.h"
@@ -17,21 +16,21 @@ int main(int argc, char *argv[]) {
 
 	for (int n = 10; n <= NMAX; ++n) {
 		setup(actionf, xe, b, n);
-		solve(b, x, n);
+		solve_naive(b, x, n);
 
 		printf("%d,", n);
 
 		residual(actionf, b, x, r, n);
-		printf("%e,", normd(r,n));
+		printf("%e,", norm(r,n));
 
 		residual(actiond, b, x, r, n);
-		printf("%e,", normd(r,n));
+		printf("%e,", norm(r,n));
 
 		residual(actionf_reordered, b, x, r, n);
-		printf("%e,", normd(r,n));
+		printf("%e,", norm(r,n));
 
 		residual(actiond_reordered, b, x, r, n);
-		printf("%e\n", normd(r,n));
+		printf("%e\n", norm(r,n));
 	}
 
 
