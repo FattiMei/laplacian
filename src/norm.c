@@ -14,7 +14,7 @@ float normf(const float x[], int n) {
 }
 
 
-double normd(const float x[], int n) {
+float normd(const float x[], int n) {
 	double sum = 0.0;
 
 	for (int i = 0; i < n; ++i) {
@@ -23,5 +23,5 @@ double normd(const float x[], int n) {
 		sum += term * term;
 	}
 
-	return sqrt(sum);
+	return (float) sqrt(sum);
 }
