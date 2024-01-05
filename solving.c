@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include "config.h"
-#include "matrix.h"
 #include "experiment.h"
 #include "laplacian.h"
 

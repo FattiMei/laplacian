@@ -1,5 +1,4 @@
 #include "config.h"
-#include "matrix.h"
 #include "laplacian.h"
 
 
@@ -188,4 +187,10 @@ void solve_upper_better(const float b[], float x[], int n) {
 	for (int i = n-2; i >= 0; --i) {
 		x[i] = (x[i] - upper[i] * x[i+1]) / tmp[i];
 	}
+}
+
+
+// default implementation
+void solve(const float b[], float x[], int n) {
+	solve_better(b, x, n);
 }
