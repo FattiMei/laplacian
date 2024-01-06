@@ -236,6 +236,51 @@ void solve_upper_better(const float b[], float x[], int n) {
 }
 
 
+void solve_block(const float b[], float x[], int n) {
+	if (n < 3) {
+		solve_naive(b, x, n);
+	}
+	else {
+		tmp[0] = 2.0f;
+		tmp[n-1] = 2.0f;
+		x[0]   = b[0];
+
+
+		const int endstop = n / 2;
+
+
+		// elimino verso il basso
+		for (int i = 1; i <= endstop; ++i) {
+			tmp[i] = (2.0f * tmp[i-1] - 1.0f) / tmp[i-1];
+			x[i] = b[i] + x[i-1] / tmp[i-1];
+		}
+
+		// elimino verso l'alto
+		for (int i = n-2; i > endstop; --i) {
+			tmp[i] = (2.0f * tmp[i+1] - 1.0f) / tmp[i+1];
+			x[i] = b[i] + x[i+1] / tmp[i+1];
+		}
+
+		// elimino la prima dalla seconda
+		tmp[endstop+1] = tmp[endstop+1] * tmp[endstop] - 1.0f;
+		x[endstop+1] = tmp[endstop] * x[endstop+1] + x[endstop];
+
+		// l'unica equazione indipendente
+		x[endstop+1] = x[endstop+1] / tmp[endstop+1];
+
+		// sostituisco all'indietro
+		for (int i = endstop; i >= 0; --i) {
+			x[i] = (x[i] + x[i+1]) / tmp[i];
+		}
+
+		// sostituisco in avanti
+		for (int i = endstop+2; i < n; ++i) {
+			x[i] = (x[i] + x[i-1]) / tmp[i];
+		}
+	}
+}
+
+
 // default implementation
 void solve(const float b[], float x[], int n) {
 	solve_better(b, x, n);
