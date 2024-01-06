@@ -147,25 +147,6 @@ void solved(const float b[], float x[], int n) {
 }
 
 
-void solve_better(const float b[], float x[], int n) {
-	// eliminazione
-	tmp[0] = 2.0f;
-	x[0]   = b[0];
-
-	for (int i = 1; i < n; ++i) {
-		tmp[i] = (2.0f * tmp[i-1] - 1.0f) / tmp[i-1];
-		x[i]   = b[i] + x[i-1] / tmp[i-1];
-	}
-
-	// sostituzione all'indietro
-	x[n-1] = x[n-1] / tmp[n-1];
-
-	for (int i = n-2; i >= 0; --i) {
-		x[i] = (x[i] + x[i+1]) / tmp[i];
-	}
-}
-
-
 void solve_upper(const float b[], float x[], int n) {
 	// eliminazione
 	tmp[0] = 2.0f;
@@ -236,7 +217,7 @@ void solve_upper_better(const float b[], float x[], int n) {
 }
 
 
-void solve_block(const float b[], float x[], int n) {
+void multifrontal(const float b[], float x[], int n) {
 	if (n < 3) {
 		solve_naive(b, x, n);
 	}
@@ -283,5 +264,5 @@ void solve_block(const float b[], float x[], int n) {
 
 // default implementation
 void solve(const float b[], float x[], int n) {
-	solve_better(b, x, n);
+	solvef(b, x, n);
 }

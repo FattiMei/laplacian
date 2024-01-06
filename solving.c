@@ -7,11 +7,12 @@
 float xe[NMAX];
 float x[NMAX];
 float b[NMAX];
+float r[NMAX];
 float e[NMAX];
 
 
 int main(int argc, char *argv[]) {
-	printf("n,solve_naive,solvef,solved\n");
+	printf("n,solve_naive,solvef,solved,multifrontal\n");
 
 	for (int n = 10; n <= NMAX; ++n) {
 		setup(actionf, xe, b, n);
@@ -19,16 +20,19 @@ int main(int argc, char *argv[]) {
 		printf("%d,", n);
 
 		solve_naive(b, x, n);
-		error(xe, x, e, n);
-		printf("%e,", norm(e,n));
+		residual(actionf, b, x, r, n);
+		printf("%e,", norm(r,n));
 
 		solvef(b, x, n);
-		error(xe, x, e, n);
-		printf("%e,", norm(e,n));
+		residual(actionf, b, x, r, n);
+		printf("%e,", norm(r,n));
 
 		solved(b, x, n);
-		error(xe, x, e, n);
-		printf("%e\n", norm(e,n));
+		residual(actionf, b, x, r, n);
+		printf("%e,", norm(r,n));
+
+		multifrontal(b, x, n);
+		printf("%e\n", norm(r,n));
 	}
 
 
