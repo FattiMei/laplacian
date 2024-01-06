@@ -18,20 +18,20 @@ OBJS      = $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(SRCS))
 all: main
 
 
-main: $(OBJS)
-	$(CC) $(INCFLAGS) $(OPTFLAGS) -o $@ ../main.c $^ $(LIBS)
+main: $(OBJS) ../main.c
+	$(CC) $(INCFLAGS) $(OPTFLAGS) -o $@ $^ $(LIBS)
 
 
-norm: $(OBJS)
-	$(CC) $(INCFLAGS) $(OPTFLAGS) -o $@ ../norms.c $^ $(LIBS)
+norm: $(OBJS) ../norms.c
+	$(CC) $(INCFLAGS) $(OPTFLAGS) -o $@ $^ $(LIBS)
 
 
-residual: $(OBJS)
-	$(CC) $(INCFLAGS) $(OPTFLAGS) -o $@ ../residuals.c $^ $(LIBS)
+residual: $(OBJS) ../residuals.c
+	$(CC) $(INCFLAGS) $(OPTFLAGS) -o $@ $^ $(LIBS)
 
 
 solve: $(OBJS) ../solving.c
-	$(CC) $(INCFLAGS) $(OPTFLAGS) -o $@ ../solving.c $^ $(LIBS)
+	$(CC) $(INCFLAGS) $(OPTFLAGS) -o $@ $^ $(LIBS)
 
 
 report: solve
