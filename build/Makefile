@@ -30,8 +30,13 @@ residual: $(OBJS)
 	$(CC) $(INCFLAGS) $(OPTFLAGS) -o $@ ../residuals.c $^ $(LIBS)
 
 
-solve: $(OBJS)
+solve: $(OBJS) ../solving.c
 	$(CC) $(INCFLAGS) $(OPTFLAGS) -o $@ ../solving.c $^ $(LIBS)
+
+
+report: solve
+	./solve > errors.csv
+	python3.8 ../report.py errors.csv
 
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c

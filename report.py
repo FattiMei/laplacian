@@ -1,3 +1,4 @@
+import sys
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -13,7 +14,7 @@ def report(csv_path):
     plt.figure()
 
     for col in columns[1:]:
-       plt.plot(df['n'], df[col], label = col)
+       plt.semilogy(df['n'], df[col], label = col)
 
 
     plt.legend()
@@ -21,6 +22,8 @@ def report(csv_path):
 
 
 if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Usage: python report.py <csv_file_path>")
+        sys.exit(1)
 
-    filename = "./build/results.csv"
-    report(filename)
+    report(sys.argv[1])
