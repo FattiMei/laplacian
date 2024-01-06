@@ -11,7 +11,7 @@ float e[NMAX];
 
 
 int main(int argc, char *argv[]) {
-	printf("n,solve_naive,solve_better,solve_upper,solve_upper_rescaled,solve_upper_better\n");
+	printf("n,solve_naive,solvef,solved\n");
 
 	for (int n = 10; n <= NMAX; ++n) {
 		setup(actionf, xe, b, n);
@@ -22,19 +22,11 @@ int main(int argc, char *argv[]) {
 		error(xe, x, e, n);
 		printf("%e,", norm(e,n));
 
-		solve_better(b, x, n);
+		solvef(b, x, n);
 		error(xe, x, e, n);
 		printf("%e,", norm(e,n));
 
-		solve_upper(b, x, n);
-		error(xe, x, e, n);
-		printf("%e,", norm(e,n));
-
-		solve_upper_rescaled(b, x, n);
-		error(xe, x, e, n);
-		printf("%e,", norm(e,n));
-
-		solve_upper_better(b, x, n);
+		solved(b, x, n);
 		error(xe, x, e, n);
 		printf("%e\n", norm(e,n));
 	}
