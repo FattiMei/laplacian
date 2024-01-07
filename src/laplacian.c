@@ -222,9 +222,10 @@ void multifrontal(const float b[], float x[], int n) {
 		solve_naive(b, x, n);
 	}
 	else {
-		tmp[0] = 2.0f;
+		tmp[0]   = 2.0f;
+		x[0]     = b[0];
 		tmp[n-1] = 2.0f;
-		x[0]   = b[0];
+		x[n-1]   = b[n-1];
 
 
 		const int endstop = n / 2;
