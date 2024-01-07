@@ -26,18 +26,18 @@ float normd(const float x[], int n) {
 }
 
 
-float norminf(const float x[], int n) {
-	float min = 0.0;
+float normsup(const float x[], int n) {
+	float max = 0.0;
 
 	for (int i = 0; i < n; ++i) {
 		const float y = fabsf(x[i]);
 
-		if (y < min) {
-			min = y;
+		if (y > max) {
+			max = y;
 		}
 	}
 
-	return min;
+	return max;
 }
 
 
