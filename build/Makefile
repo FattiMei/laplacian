@@ -1,6 +1,7 @@
 BUILD_DIR = .
 INC_DIR = ../include
 SRC_DIR = ../src
+EXP_DIR = ../experiments
 
 
 CC = gcc
@@ -11,26 +12,27 @@ OPTFLAGS = -O2
 LIBS += -lm
 
 
-SRCS      = $(wildcard $(SRC_DIR)/*.c)
-OBJS      = $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(SRCS))
+SRCS = $(wildcard $(SRC_DIR)/*.c)
+OBJS = $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(SRCS))
+EXPS = $(wildcard $(EXP_DIR)/*.c)
 
 
 all: main
 
 
-main: $(OBJS) ../main.c
+main: $(OBJS) $(EXP_DIR)/main.c
 	$(CC) $(INCFLAGS) $(OPTFLAGS) -o $@ $^ $(LIBS)
 
 
-norm: $(OBJS) ../norms.c
+norm: $(OBJS) $(EXP_DIR)/norms.c
 	$(CC) $(INCFLAGS) $(OPTFLAGS) -o $@ $^ $(LIBS)
 
 
-residual: $(OBJS) ../residuals.c
+residual: $(OBJS) $(EXP_DIR)/residuals.c
 	$(CC) $(INCFLAGS) $(OPTFLAGS) -o $@ $^ $(LIBS)
 
 
-solve: $(OBJS) ../solving.c
+solve: $(OBJS) $(EXP_DIR)/solving.c
 	$(CC) $(INCFLAGS) $(OPTFLAGS) -o $@ $^ $(LIBS)
 
 

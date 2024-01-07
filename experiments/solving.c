@@ -20,19 +20,20 @@ int main(int argc, char *argv[]) {
 		printf("%d,", n);
 
 		solve_naive(b, x, n);
-		residual(actionf, b, x, r, n);
-		printf("%e,", norm(r,n));
+		error(xe, x, e, n);
+		printf("%e,", norm(e,n));
 
 		solvef(b, x, n);
-		residual(actionf, b, x, r, n);
-		printf("%e,", norm(r,n));
+		error(xe, x, e, n);
+		printf("%e,", norm(e,n));
 
 		solved(b, x, n);
-		residual(actionf, b, x, r, n);
-		printf("%e,", norm(r,n));
+		error(xe, x, e, n);
+		printf("%e,", norm(e,n));
 
 		multifrontal(b, x, n);
-		printf("%e\n", norm(r,n));
+		error(xe, x, e, n);
+		printf("%e\n", norm(e,n));
 	}
 
 
