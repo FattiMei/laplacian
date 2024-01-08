@@ -20,13 +20,11 @@ void action(const SINGLE x[], SINGLE y[], int n) {
 
 
 template <typename DOUBLE, typename SINGLE>
-void thomas(const SINGLE b[], SINGLE x[], int n) {
-	// è un peccato dover fare questa allocazione, ma è il prezzo da pagare per i template
-	SINGLE *tmp = new SINGLE[n];
+void thomas(const SINGLE b[], SINGLE diag[], SINGLE x[], int n) {
 	DOUBLE d = static_cast<DOUBLE>(2.0);
 
 
-	tmp[0] = static_cast<SINGLE>(d);
+	diag[0] = static_cast<SINGLE>(d);
 	x[0] = b[0];
 
 
@@ -34,20 +32,17 @@ void thomas(const SINGLE b[], SINGLE x[], int n) {
 		// d = (2 * d - 1) / d con le costanti nella precisione di d;
 		d = (static_cast<DOUBLE>(2.0) * d - static_cast<DOUBLE>(1.0)) / d;
 
-		tmp[i] = static_cast<DOUBLE>(d);
-		x[i]   = b[i] + x[i-1] / tmp[i-1];
+		diag[i] = static_cast<DOUBLE>(d);
+		x[i]   = b[i] + x[i-1] / diag[i-1];
 	}
 
 
 	// sostituzione all'indietro
-	x[n-1] = x[n-1] / tmp[n-1];
+	x[n-1] = x[n-1] / diag[n-1];
 
 	for (int i = n-2; i >= 0; --i) {
-		x[i] = (x[i] + x[i+1]) / tmp[i];
+		x[i] = (x[i] + x[i+1]) / diag[i];
 	}
-
-
-	delete[] tmp;
 }
 
 

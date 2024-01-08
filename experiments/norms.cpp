@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include "../implementations/norm.h"
-#include "../implementations/laplacian.h"
+#include "norm.h"
+#include "laplacian.h"
 
 
 #define NMAX 100
@@ -36,7 +36,7 @@ int main(int argc, char *argv[]) {
 
 	for (int n = 10; n <= NMAX; ++n) {
 		setup(xe, b, n);
-		thomas<float>(b, x, n);
+		thomas<float>(b, diag, x, n);
 		residual(b, x, r, n);
 
 		printf("%d,%e,%e\n", n, norm<float>(r,n), norm<double>(r,n));
