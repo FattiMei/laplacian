@@ -30,8 +30,7 @@ void error(float xe[], float x[], float e[], int n) {
 
 
 int main(int argc, char *argv[]) {
-	// @TODO: aggiungere anche metodo multifrontale
-	printf("n,thomas(fp32),thomas(fp64),thomas(fp80)\n");
+	printf("n,thomas(fp32),thomas(fp64),multifrontal(fp32),multifrontal(fp64)\n");
 
 	for (int n = 10; n <= NMAX; ++n) {
 		setup(xe, b, n);
@@ -46,7 +45,11 @@ int main(int argc, char *argv[]) {
 		error(xe, x, e, n);
 		printf("%e,", norm<double>(e,n));
 
-		thomas<long double>(b, diag, x, n);
+		multifrontal<float>(b, diag, x, n);
+		error(xe, x, e, n);
+		printf("%e,", norm<double>(e,n));
+
+		multifrontal<double>(b, diag, x, n);
 		error(xe, x, e, n);
 		printf("%e\n", norm<double>(e,n));
 	}
