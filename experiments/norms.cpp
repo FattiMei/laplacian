@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include "config.h"
-#include "norm.h"
 #include "experiment.h"
 #include "laplacian.h"
+#include "../implementations/norm.h"
 
 
 float xe[NMAX];
@@ -12,16 +12,14 @@ float r[NMAX];
 
 
 int main(int argc, char *argv[]) {
-	printf("n,normf,normd\n");
+	printf("n,norm(fp32),norm(fp64)\n");
 
 	for (int n = 10; n <= NMAX; ++n) {
 		setup(actionf, xe, b, n);
 		solve(b, x, n);
 		residual(actionf, b, x, r, n);
 
-		printf("%d,", n);
-		printf("%e,", normf(r,n));
-		printf("%e\n", normd(r,n));
+		printf("%d,%e,%e\n", n, norm<float>(r,n), norm<double>(r,n));
 	}
 
 

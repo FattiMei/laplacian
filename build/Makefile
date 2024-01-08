@@ -4,7 +4,7 @@ SRC_DIR = ../src
 EXP_DIR = ../experiments
 
 
-CC = gcc
+CC = g++
 INCFLAGS = -I $(INC_DIR)
 OPTFLAGS = -O2
 
@@ -24,7 +24,7 @@ main: $(OBJS) $(EXP_DIR)/main.c
 	$(CC) $(INCFLAGS) $(OPTFLAGS) -o $@ $^ $(LIBS)
 
 
-norm: $(OBJS) $(EXP_DIR)/norms.c
+norm: $(OBJS) $(EXP_DIR)/norms.cpp
 	$(CC) $(INCFLAGS) $(OPTFLAGS) -o $@ $^ $(LIBS)
 
 
