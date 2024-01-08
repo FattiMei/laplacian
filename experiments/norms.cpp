@@ -2,13 +2,15 @@
 #include "config.h"
 #include "experiment.h"
 #include "laplacian.h"
-#include "norm.h"
+#include "../implementations/norm.h"
+#include "../implementations/laplacian.h"
 
 
 float xe[NMAX];
 float x[NMAX];
 float b[NMAX];
 float r[NMAX];
+float diag[NMAX];
 
 
 int main(int argc, char *argv[]) {
@@ -16,7 +18,7 @@ int main(int argc, char *argv[]) {
 
 	for (int n = 10; n <= NMAX; ++n) {
 		setup(actionf, xe, b, n);
-		solve(b, x, n);
+		thomas<float>(b, x, n);
 		residual(actionf, b, x, r, n);
 
 		printf("%d,%e,%e\n", n, norm<float>(r,n), norm<double>(r,n));

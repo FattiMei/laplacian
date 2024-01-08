@@ -3,6 +3,23 @@
 
 
 template <typename DOUBLE, typename SINGLE>
+void action(const SINGLE x[], SINGLE y[], int n) {
+	for (int i = 0; i < n; ++i) {
+		DOUBLE acc = 2.0 * x[i];
+
+		if (i < (n-1)) {
+			acc -= x[i+1];
+		}
+		if (i > 0) {
+			acc -= x[i-1];
+		}
+
+		y[i] = static_cast<SINGLE>(acc);
+	}
+}
+
+
+template <typename DOUBLE, typename SINGLE>
 void thomas(const SINGLE b[], SINGLE x[], int n) {
 	// è un peccato dover fare questa allocazione, ma è il prezzo da pagare per i template
 	SINGLE *tmp = new SINGLE[n];
