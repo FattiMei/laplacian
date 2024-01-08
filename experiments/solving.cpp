@@ -1,9 +1,8 @@
 #include <stdio.h>
 #include "config.h"
 #include "experiment.h"
+#include "norm.h"
 #include "laplacian.h"
-#include "../implementations/norm.h"
-#include "../implementations/laplacian.h"
 
 
 float xe[NMAX];
@@ -33,7 +32,6 @@ int main(int argc, char *argv[]) {
 		thomas<long double>(b, x, n);
 		error(xe, x, e, n);
 		printf("%e\n", norm(e,n));
-
 	}
 
 

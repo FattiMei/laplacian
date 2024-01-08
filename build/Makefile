@@ -2,10 +2,11 @@ BUILD_DIR = .
 INC_DIR = ../include
 SRC_DIR = ../src
 EXP_DIR = ../experiments
+IMPL_DIR = ../implementations
 
 
 CC = g++
-INCFLAGS = -I $(INC_DIR)
+INCFLAGS = -I $(INC_DIR) -I $(IMPL_DIR)
 OPTFLAGS = -O2
 
 

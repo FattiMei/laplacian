@@ -2,7 +2,7 @@
 #include "config.h"
 #include "experiment.h"
 #include "laplacian.h"
-#include "../implementations/norm.h"
+#include "norm.h"
 
 
 float xe[NMAX];
