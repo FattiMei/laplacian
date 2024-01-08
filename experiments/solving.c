@@ -2,7 +2,8 @@
 #include "config.h"
 #include "experiment.h"
 #include "laplacian.h"
-#include "norm.h"
+#include "../implementations/norm.h"
+#include "../implementations/laplacian.h"
 
 
 float xe[NMAX];
@@ -13,28 +14,26 @@ float e[NMAX];
 
 
 int main(int argc, char *argv[]) {
-	printf("n,solve_naive,solvef,solved,multifrontal\n");
+	// @TODO: aggiungere anche metodo multifrontale
+	printf("n,thomas(fp32),thomas(fp64),thomas(fp80)\n");
 
 	for (int n = 10; n <= NMAX; ++n) {
 		setup(actionf, xe, b, n);
 
 		printf("%d,", n);
 
-		solve_naive(b, x, n);
+		thomas<float>(b, x, n);
 		error(xe, x, e, n);
-		printf("%e,", normsup(e,n));
+		printf("%e,", norm(e,n));
 
-		solvef(b, x, n);
+		thomas<double>(b, x, n);
 		error(xe, x, e, n);
-		printf("%e,", normsup(e,n));
+		printf("%e,", norm(e,n));
 
-		solved(b, x, n);
+		thomas<long double>(b, x, n);
 		error(xe, x, e, n);
-		printf("%e,", normsup(e,n));
+		printf("%e\n", norm(e,n));
 
-		multifrontal(b, x, n);
-		error(xe, x, e, n);
-		printf("%e\n", normsup(e,n));
 	}
 
 
