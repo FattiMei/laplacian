@@ -1,6 +1,7 @@
 BUILD_DIR = ./build
 EXP_DIR = ./examples
 SRC_DIR = ./src
+BENCH_DIR = ./benchmark
 
 
 CC = g++
@@ -9,6 +10,7 @@ OPTFLAGS = -O2
 
 
 LIBS += -lm
+BENCHFLAGS = -lbenchmark -lpthread
 
 
 SRCS = $(wildcard $(SRC_DIR)/*.h)
@@ -26,6 +28,11 @@ refine: $(SRCS) $(EXP_DIR)/refinement.cpp
 	$(CC) $(INCFLAGS) $(OPTFLAGS) -o $(BUILD_DIR)/$@ $(EXP_DIR)/refinement.cpp $(LIBS)
 
 
-report: refine
-	$(BUILD_DIR)/refine > $(BUILD_DIR)/errors.csv
+report: solve
+	$(BUILD_DIR)/solve > $(BUILD_DIR)/errors.csv
 	python3.8 report.py $(BUILD_DIR)/errors.csv
+
+
+bench:
+	$(CC) $(INCFLAGS) $(OPTFLAGS) -o $(BUILD_DIR)/$@ $(BENCH_DIR)/multiprecision.cpp $(LIBS) $(BENCHFLAGS)
+	$(BUILD_DIR)/bench

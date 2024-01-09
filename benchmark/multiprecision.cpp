@@ -20,6 +20,7 @@ static void norm_fp32(benchmark::State& state) {
 	}
 }
 
+
 static void norm_fp64(benchmark::State& state) {
 	const int n = state.range(0);
 	float *x = new float[n];
@@ -32,6 +33,19 @@ static void norm_fp64(benchmark::State& state) {
 }
 
 
-BENCHMARK(norm_fp32)->Arg(10000);
-BENCHMARK(norm_fp64)->Arg(10000);
+static void norm_fp80(benchmark::State& state) {
+	const int n = state.range(0);
+	float *x = new float[n];
+
+	init(x, n);
+
+	for (auto _ : state) {
+		norm<long double>(x,n);
+	}
+}
+
+
+BENCHMARK(norm_fp32)->Arg(100000);
+BENCHMARK(norm_fp64)->Arg(100000);
+BENCHMARK(norm_fp80)->Arg(100000);
 BENCHMARK_MAIN();
