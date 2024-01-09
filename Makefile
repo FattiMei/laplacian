@@ -1,26 +1,27 @@
-EXP_DIR = ./experiments
-IMP_DIR = ./implementations
+BUILD_DIR = ./build
+EXP_DIR = ./examples
+SRC_DIR = ./src
 
 
 CC = g++
-INCFLAGS = -I $(IMP_DIR)
+INCFLAGS = -I $(SRC_DIR)
 OPTFLAGS = -O2
 
 
 LIBS += -lm
 
 
-SRCS = $(wildcard $(IMP_DIR)/*.h)
+SRCS = $(wildcard $(SRC_DIR)/*.h)
 
 
 norm: $(SRCS) $(EXP_DIR)/norms.cpp
-	$(CC) $(INCFLAGS) $(OPTFLAGS) -o $@ $(EXP_DIR)/norms.cpp $(LIBS)
+	$(CC) $(INCFLAGS) $(OPTFLAGS) -o $(BUILD_DIR)/$@ $(EXP_DIR)/norms.cpp $(LIBS)
 
 
 solve: $(SRCS) $(EXP_DIR)/solving.cpp
-	$(CC) $(INCFLAGS) $(OPTFLAGS) -o $@ $(EXP_DIR)/solving.cpp $(LIBS)
+	$(CC) $(INCFLAGS) $(OPTFLAGS) -o $(BUILD_DIR)/$@ $(EXP_DIR)/solving.cpp $(LIBS)
 
 
 report: solve
-	./solve > errors.csv
-	python3.8 report.py errors.csv
+	$(BUILD_DIR)/solve > $(BUILD_DIR)/errors.csv
+	python3.8 report.py $(BUILD_DIR)/errors.csv

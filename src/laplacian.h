@@ -56,53 +56,54 @@ template <typename DOUBLE, typename SINGLE>
 void multifrontal(const SINGLE b[], SINGLE diag[], SINGLE x[], int n) {
 	if (n < 3) {
 		thomas<DOUBLE>(b, diag, x, n);
+		return;
 	}
-	else {
-		DOUBLE down = static_cast<DOUBLE>(2.0);
-		DOUBLE up   = static_cast<DOUBLE>(2.0);
-
-		diag[0]     = static_cast<SINGLE>(down);
-		diag[n-1]   = static_cast<SINGLE>(up);
-
-		x[0]        = b[0];
-		x[n-1]      = b[n-1];
 
 
-		const int endstop = n / 2;
+	DOUBLE down = static_cast<DOUBLE>(2.0);
+	DOUBLE up   = static_cast<DOUBLE>(2.0);
+
+	diag[0]     = static_cast<SINGLE>(down);
+	diag[n-1]   = static_cast<SINGLE>(up);
+
+	x[0]        = b[0];
+	x[n-1]      = b[n-1];
 
 
-		// elimino verso il basso
-		for (int i = 1; i <= endstop; ++i) {
-			down = map(down);
+	const int endstop = n / 2;
 
-			diag[i] = static_cast<SINGLE>(down);
-			x[i] = b[i] + x[i-1] / diag[i-1];
-		}
 
-		// elimino verso l'alto
-		for (int i = n-2; i > endstop; --i) {
-			up = map(up);
+	// elimino verso il basso
+	for (int i = 1; i <= endstop; ++i) {
+		down = map(down);
 
-			diag[i] = static_cast<SINGLE>(up);
-			x[i] = b[i] + x[i+1] / diag[i+1];
-		}
+		diag[i] = static_cast<SINGLE>(down);
+		x[i] = b[i] + x[i-1] / diag[i-1];
+	}
 
-		// elimino la prima dalla seconda
-		diag[endstop+1] = diag[endstop+1] * diag[endstop] - 1.0f;
-		x[endstop+1] = diag[endstop] * x[endstop+1] + x[endstop];
+	// elimino verso l'alto
+	for (int i = n-2; i > endstop; --i) {
+		up = map(up);
 
-		// l'unica equazione indipendente
-		x[endstop+1] = x[endstop+1] / diag[endstop+1];
+		diag[i] = static_cast<SINGLE>(up);
+		x[i] = b[i] + x[i+1] / diag[i+1];
+	}
 
-		// sostituisco all'indietro
-		for (int i = endstop; i >= 0; --i) {
-			x[i] = (x[i] + x[i+1]) / diag[i];
-		}
+	// elimino la prima dalla seconda
+	diag[endstop+1] = diag[endstop+1] * diag[endstop] - 1.0;
+	x[endstop+1] = diag[endstop] * x[endstop+1] + x[endstop];
 
-		// sostituisco in avanti
-		for (int i = endstop+2; i < n; ++i) {
-			x[i] = (x[i] + x[i-1]) / diag[i];
-		}
+	// l'unica equazione indipendente
+	x[endstop+1] = x[endstop+1] / diag[endstop+1];
+
+	// sostituisco all'indietro
+	for (int i = endstop; i >= 0; --i) {
+		x[i] = (x[i] + x[i+1]) / diag[i];
+	}
+
+	// sostituisco in avanti
+	for (int i = endstop+2; i < n; ++i) {
+		x[i] = (x[i] + x[i-1]) / diag[i];
 	}
 }
 
