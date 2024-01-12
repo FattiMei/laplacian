@@ -13,13 +13,18 @@ This simple computation has a major flaw: we are measuring the correctness of it
 
 
 ## State of repository
-I wanted to make the repository simple as possible, using the most basic language features of C. The repository now has an emergent behaviour that suggest the use of C++ templated functions, for example: the norm of a vector with given precision entries can be computed using an accumulator of another precision.
+The functions in src/ directory use C++ templates to define:
+ * the precision of the input array
+ * the precision of the intermediate results
 
-Another important instance of this concept of computing in two precisions is the thomas algorithm on the laplacian matrix, where the dynamic of the diagonal elimination can be computed in different precisions, yielding better precision with minimal additional computational cost.
+Such structure sacrifices efficiency in compilation for correctness of the implementations. Previoulsy multiple versions of the same algorithm had to be produced and kept maintained.
 
-From my understanding at 08/01/2024 the C++ templated functions must be declared where they are specialized. You can't declare a templated foo() in foo.cpp, compile it and link it to a main.cpp where there is specialization of foo()
 
-The whole structure needs to accomodate this, probably having implementations declared in header files, and every user of such functions will have to include the header.
+## Multiprecision
+The work was naturally shaped into multiprecision algorithms. When eliminating rows in the laplacian matrix, the diagonal stores the iterates of the map f(x) = 2 - 1/x
 
-The reference commit where everything works
+Since the process is accumulating errors, is convenient to compute the iterates in double precisions, while storing intermediate results in single precision. This is an instance of multiprecision thinking: using fast and coarse arithmetic for converging to the solution of the problem, while computing accurate results only when necessary. The GPU architectures favours this approach because the reference floating point precision is fp32 and the fp64 arithmetic is very slow. On modern cpus there is not much cost difference in using floats over doubles, the benchmarks speak.
+
+
+The reference commit where everything works, but now we are at an acceptable point
 271afcaa5253ac6860edf46ddd1eb4cbd53e26a8
