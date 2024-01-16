@@ -38,6 +38,8 @@ report: build solve
 bench: build
 	$(CC) $(INCFLAGS) $(OPTFLAGS) -o $(BUILD_DIR)/$@ $(BENCH_DIR)/multiprecision.cpp $(LIBS) $(BENCHFLAGS)
 	$(BUILD_DIR)/bench
+	$(CC) $(INCFLAGS) $(OPTFLAGS) -o $(BUILD_DIR)/$@ $(BENCH_DIR)/multifrontal.cpp $(LIBS) $(BENCHFLAGS)
+	$(BUILD_DIR)/bench
 
 build:
 	mkdir -p $(BUILD_DIR)
