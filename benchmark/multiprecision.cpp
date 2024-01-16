@@ -2,6 +2,12 @@
 #include "norm.h"
 
 
+#define NMAX 100000
+
+
+float x[NMAX];
+
+
 void init(float x[], int n) {
 	for (int i = 0; i < n; ++i) {
 		x[i] = i;
@@ -11,7 +17,6 @@ void init(float x[], int n) {
 
 static void norm_fp32(benchmark::State& state) {
 	const int n = state.range(0);
-	float *x = new float[n];
 
 	init(x, n);
 
@@ -23,7 +28,6 @@ static void norm_fp32(benchmark::State& state) {
 
 static void norm_fp64(benchmark::State& state) {
 	const int n = state.range(0);
-	float *x = new float[n];
 
 	init(x, n);
 
@@ -35,7 +39,6 @@ static void norm_fp64(benchmark::State& state) {
 
 static void norm_fp80(benchmark::State& state) {
 	const int n = state.range(0);
-	float *x = new float[n];
 
 	init(x, n);
 
@@ -45,7 +48,11 @@ static void norm_fp80(benchmark::State& state) {
 }
 
 
-BENCHMARK(norm_fp32)->Arg(100000);
-BENCHMARK(norm_fp64)->Arg(100000);
-BENCHMARK(norm_fp80)->Arg(100000);
+// How norm calculation suffers from the precision used
+BENCHMARK(norm_fp32)->Arg(NMAX);
+BENCHMARK(norm_fp64)->Arg(NMAX);
+BENCHMARK(norm_fp80)->Arg(NMAX);
+
 BENCHMARK_MAIN();
+
+
