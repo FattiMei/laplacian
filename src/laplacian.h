@@ -60,50 +60,71 @@ void multifrontal(const SINGLE b[], SINGLE diag[], SINGLE x[], int n) {
 	}
 
 
-	DOUBLE down = static_cast<DOUBLE>(2.0);
-	DOUBLE up   = static_cast<DOUBLE>(2.0);
-
-	diag[0]     = static_cast<SINGLE>(down);
-	diag[n-1]   = static_cast<SINGLE>(up);
-
-	x[0]        = b[0];
-	x[n-1]      = b[n-1];
+	const int middle = n / 2;
 
 
-	const int endstop = n / 2;
+	#pragma omp parallel sections
+	{
+		#pragma omp section
+		{
+			DOUBLE down = static_cast<DOUBLE>(2.0);
+			diag[0]     = static_cast<SINGLE>(down);
+			x[0]        = b[0];
 
 
-	// elimino verso il basso
-	for (int i = 1; i <= endstop; ++i) {
-		down = map(down);
+			// elimino verso il basso
+			for (int i = 1; i <= middle; ++i) {
+				down = map(down);
 
-		diag[i] = static_cast<SINGLE>(down);
-		x[i] = b[i] + x[i-1] / diag[i-1];
+				diag[i] = static_cast<SINGLE>(down);
+				x[i] = b[i] + x[i-1] / diag[i-1];
+			}
+		}
+
+		#pragma omp section
+		{
+			DOUBLE up   = static_cast<DOUBLE>(2.0);
+			diag[n-1]   = static_cast<SINGLE>(up);
+			x[n-1]      = b[n-1];
+
+
+			// elimino verso l'alto
+			for (int i = n-2; i > middle; --i) {
+				up = map(up);
+
+				diag[i] = static_cast<SINGLE>(up);
+				x[i] = b[i] + x[i+1] / diag[i+1];
+			}
+		}
 	}
 
-	// elimino verso l'alto
-	for (int i = n-2; i > endstop; --i) {
-		up = map(up);
-
-		diag[i] = static_cast<SINGLE>(up);
-		x[i] = b[i] + x[i+1] / diag[i+1];
-	}
 
 	// elimino la prima dalla seconda
-	diag[endstop+1] = diag[endstop+1] * diag[endstop] - 1.0;
-	x[endstop+1] = diag[endstop] * x[endstop+1] + x[endstop];
+	diag[middle+1] = diag[middle+1] * diag[middle] - 1.0;
+	x[middle+1] = diag[middle] * x[middle+1] + x[middle];
 
 	// l'unica equazione indipendente
-	x[endstop+1] = x[endstop+1] / diag[endstop+1];
+	x[middle+1] = x[middle+1] / diag[middle+1];
 
-	// sostituisco all'indietro
-	for (int i = endstop; i >= 0; --i) {
-		x[i] = (x[i] + x[i+1]) / diag[i];
-	}
 
-	// sostituisco in avanti
-	for (int i = endstop+2; i < n; ++i) {
-		x[i] = (x[i] + x[i-1]) / diag[i];
+	#pragma omp parallel sections
+	{
+		#pragma omp section
+		{
+			// sostituisco all'indietro
+			for (int i = middle; i >= 0; --i) {
+				x[i] = (x[i] + x[i+1]) / diag[i];
+			}
+		}
+
+		#pragma omp section
+		{
+
+			// sostituisco in avanti
+			for (int i = middle+2; i < n; ++i) {
+				x[i] = (x[i] + x[i-1]) / diag[i];
+			}
+		}
 	}
 }
 

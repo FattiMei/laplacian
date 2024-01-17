@@ -7,7 +7,7 @@ BENCH_DIR = ./benchmark
 CC = g++
 PYTHON = python3.11
 INCFLAGS = -I $(SRC_DIR)
-OPTFLAGS = -O2
+OPTFLAGS = -O2 -fopenmp
 
 
 LIBS += -lm
@@ -36,8 +36,6 @@ report: build solve
 
 
 bench: build
-	$(CC) $(INCFLAGS) $(OPTFLAGS) -o $(BUILD_DIR)/$@ $(BENCH_DIR)/multiprecision.cpp $(LIBS) $(BENCHFLAGS)
-	$(BUILD_DIR)/bench
 	$(CC) $(INCFLAGS) $(OPTFLAGS) -o $(BUILD_DIR)/$@ $(BENCH_DIR)/multifrontal.cpp $(LIBS) $(BENCHFLAGS)
 	$(BUILD_DIR)/bench
 
