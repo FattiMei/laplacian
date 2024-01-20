@@ -25,6 +25,12 @@ inline DOUBLE map(DOUBLE x) {
 }
 
 
+template <typename DOUBLE>
+inline DOUBLE inverse_map(DOUBLE x) {
+	return static_cast<DOUBLE> (1.0) / (static_cast<DOUBLE>(2.0) - x);
+}
+
+
 template <typename DOUBLE, typename SINGLE>
 void thomas(const SINGLE b[], SINGLE diag[], SINGLE x[], int n) {
 	DOUBLE d = static_cast<DOUBLE>(2.0);
@@ -48,6 +54,31 @@ void thomas(const SINGLE b[], SINGLE diag[], SINGLE x[], int n) {
 
 	for (int i = n-2; i >= 0; --i) {
 		x[i] = (x[i] + x[i+1]) / diag[i];
+	}
+}
+
+
+template <typename DOUBLE, typename SINGLE>
+void storeless(const SINGLE b[], SINGLE diag[], SINGLE x[], int n) {
+	DOUBLE d = static_cast<DOUBLE>(2.0);
+
+
+	x[0] = b[0];
+
+
+	for (int i = 1; i < n; ++i) {
+		x[i] = b[i] + x[i-1] / d;
+
+		d = map(d);
+	}
+
+
+	// sostituzione all'indietro
+	x[n-1] = x[n-1] / d;
+
+	for (int i = n-2; i >= 0; --i) {
+		d = inverse_map(d);
+		x[i] = (x[i] + x[i+1]) / d;
 	}
 }
 

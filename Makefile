@@ -36,7 +36,7 @@ report: build solve
 
 
 bench: build
-	$(CC) $(INCFLAGS) $(OPTFLAGS) -o $(BUILD_DIR)/$@ $(BENCH_DIR)/multifrontal.cpp $(LIBS) $(BENCHFLAGS)
+	$(CC) $(INCFLAGS) $(OPTFLAGS) -o $(BUILD_DIR)/$@ $(BENCH_DIR)/storeless.cpp $(LIBS) $(BENCHFLAGS)
 	$(BUILD_DIR)/bench
 
 build:
