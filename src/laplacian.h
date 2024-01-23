@@ -160,4 +160,90 @@ void multifrontal(const SINGLE b[], SINGLE diag[], SINGLE x[], int n) {
 }
 
 
+template <typename DOUBLE, typename SINGLE>
+void simultaneous(const SINGLE b[], SINGLE diag[], SINGLE x[], int n) {
+	if (n < 3) {
+		thomas<DOUBLE>(b, diag, x, n);
+		return;
+	}
+
+
+	const int middle = n / 2;
+	DOUBLE down, up;
+
+
+	#pragma omp parallel sections
+	{
+		#pragma omp section
+		{
+			down        = static_cast<DOUBLE>(2.0);
+			diag[0]     = static_cast<SINGLE>(down);
+			x[0]        = b[0];
+
+
+			// elimino verso il basso
+			for (int i = 1; i <= middle; ++i) {
+				down = map(down);
+
+				diag[i] = static_cast<SINGLE>(down);
+				x[i] = b[i] + x[i-1] / diag[i-1];
+			}
+		}
+
+		#pragma omp section
+		{
+			up          = static_cast<DOUBLE>(2.0);
+			diag[n-1]   = static_cast<SINGLE>(up);
+			x[n-1]      = b[n-1];
+
+
+			// elimino verso l'alto
+			for (int i = n-2; i > middle; --i) {
+				up = map(up);
+
+				diag[i] = static_cast<SINGLE>(up);
+				x[i] = b[i] + x[i+1] / diag[i+1];
+			}
+		}
+	}
+
+
+	// eliminazione simultanea, in entrambi i sensi
+	SINGLE tmp = x[middle+1];
+
+	// elimino verso il basso
+	diag[middle+1] = static_cast<SINGLE>(up - static_cast<DOUBLE>(1.0) / down);
+	x[middle+1] = x[middle+1] + x[middle] / static_cast<SINGLE>(down);
+
+	// elimino verso l'alto
+	diag[middle] = static_cast<SINGLE>(down - static_cast<DOUBLE>(1.0) / up);
+	x[middle] = x[middle] + tmp / static_cast<SINGLE>(up);
+
+
+	#pragma omp parallel sections
+	{
+		#pragma omp section
+		{
+			// sostituisco all'indietro
+			x[middle] = x[middle] / diag[middle];
+
+			for (int i = middle-1; i >= 0; --i) {
+				x[i] = (x[i] + x[i+1]) / diag[i];
+			}
+		}
+
+		#pragma omp section
+		{
+
+			// sostituisco in avanti
+			x[middle+1] = x[middle+1] / diag[middle+1];
+
+			for (int i = middle+2; i < n; ++i) {
+				x[i] = (x[i] + x[i-1]) / diag[i];
+			}
+		}
+	}
+}
+
+
 #endif

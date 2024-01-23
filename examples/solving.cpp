@@ -35,7 +35,7 @@ void error(float xe[], float x[], float e[], int n) {
 
 
 int main(int argc, char *argv[]) {
-	printf("n,thomas(fp32),thomas(fp64),storeless(fp32),storeless(fp64)\n");
+	printf("n,multifrontal(fp32),simultaneous(fp32)\n");
 
 	setup(xe, b, NMAX);
 
@@ -43,19 +43,11 @@ int main(int argc, char *argv[]) {
 		printf("%d,", n);
 		action<double>(xe, b, n);
 
-		thomas<float>(b, diag, x, n);
+		multifrontal<float>(b, diag, x, n);
 		error(xe, x, e, n);
 		printf("%e,", norm<double>(e,n));
 
-		thomas<double>(b, diag, x, n);
-		error(xe, x, e, n);
-		printf("%e,", norm<double>(e,n));
-
-		storeless<float>(b, diag, x, n);
-		error(xe, x, e, n);
-		printf("%e,", norm<double>(e,n));
-
-		storeless<double>(b, diag, x, n);
+		simultaneous<float>(b, diag, x, n);
 		error(xe, x, e, n);
 		printf("%e\n", norm<double>(e,n));
 	}
