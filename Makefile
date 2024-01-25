@@ -25,14 +25,18 @@ solve: build $(SRCS) $(EXP_DIR)/solving.cpp
 	$(CC) $(INCFLAGS) $(OPTFLAGS) -o $(BUILD_DIR)/$@ $(EXP_DIR)/solving.cpp $(LIBS)
 
 
+residuals: build $(SRCS) $(EXP_DIR)/errors_and_residuals.cpp
+	$(CC) $(INCFLAGS) $(OPTFLAGS) -o $(BUILD_DIR)/$@ $(EXP_DIR)/errors_and_residuals.cpp $(LIBS)
+
+
 refine: build $(SRCS) $(EXP_DIR)/refinement.cpp
 	$(CC) $(INCFLAGS) $(OPTFLAGS) -o $(BUILD_DIR)/$@ $(EXP_DIR)/refinement.cpp $(LIBS)
 
 
 # still need improvement to avoid recompilation of the experiments
-report: build solve
-	$(BUILD_DIR)/solve > $(BUILD_DIR)/errors.csv
-	$(PYTHON) report.py $(BUILD_DIR)/errors.csv
+report: build residuals
+	$(BUILD_DIR)/residuals > $(BUILD_DIR)/errors_and_residuals.csv
+	$(PYTHON) report.py $(BUILD_DIR)/errors_and_residuals.csv
 
 
 bench: build
