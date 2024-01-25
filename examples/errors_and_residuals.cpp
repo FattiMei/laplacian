@@ -18,7 +18,7 @@ REAL x[NMAX];
 REAL b[NMAX];
 REAL r[NMAX];
 REAL e[NMAX];
-REAL d[NMAX];
+REAL diag[NMAX];
 
 
 void setup(REAL xe[], REAL b[], int n) {
@@ -52,7 +52,7 @@ int main() {
 
 	for (int n = 10; n <= NMAX; ++n) {
 		setup(xe, b, n);
-		thomas<REAL>(b, x, n);
+		thomas<REAL>(b, diag, x, n);
 		residual(b, x, r, n);
 		error(xe, x, e, n);
 
