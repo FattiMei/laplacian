@@ -14,7 +14,7 @@ def report(csv_path):
     plt.figure()
 
     for col in columns[1:]:
-       plt.semilogy(df['n'], df[col], label = col)
+       plt.semilogy(df[columns[0]], df[col], label = col, linewidth = 0.5)
 
 
     plt.legend()

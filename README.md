@@ -15,12 +15,17 @@ By solving with a known solution, we measure the norm of the residuals and the e
 
 ## Experiments
 
-### errors_and_residuals
+### `errors_and_residuals.cpp`
 Solves the laplacian from a known solution (vector of ones), computes the norm of the residual and the norm of the error. Demonstrate how residuals norms are less useful to estimate the error when the matrix gets bigger (and more ill conditioned)
 
-
-### bad_residuals
+### `bad_residuals.cpp`
 Solves the laplacian and computes the residual to estimate error. Compares two implementations of residual computation one of which is numerically unstable
+
+### `solvers.cpp`
+Compares the numerical error of different solvers, variations of:
+ * thomas algorithm (for tridiagonal matrices)
+ * multifrontal algorithm
+the solvers can compute intermediate results using a better precision to reduce numerical errors (see section ..)
 
 
 ## Why I needed C++ features
