@@ -19,6 +19,26 @@ void action(const SINGLE x[], SINGLE y[], int n) {
 }
 
 
+template <typename DOUBLE, typename SINGLE>
+void bad_action(const SINGLE x[], SINGLE y[], int n) {
+	for (int i = 0; i < n; ++i) {
+		DOUBLE acc = 2.0 * x[i];
+
+		if (i == 0) {
+			acc -= x[i+1];
+		}
+		else if (i == (n-1)) {
+			acc -= x[i-1];
+		}
+		else {
+			acc -= static_cast<DOUBLE>(x[i-1]) + static_cast<DOUBLE>(x[i+1]);
+		}
+
+		y[i] = static_cast<SINGLE>(acc);
+	}
+}
+
+
 template <typename DOUBLE>
 inline DOUBLE map(DOUBLE x) {
 	return (static_cast<DOUBLE>(2.0) * x - static_cast<DOUBLE>(1.0)) / x;

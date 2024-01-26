@@ -19,6 +19,10 @@ By solving with a known solution, we measure the norm of the residuals and the e
 Solves the laplacian from a known solution (vector of ones), computes the norm of the residual and the norm of the error. Demonstrate how residuals norms are less useful to estimate the error when the matrix gets bigger (and more ill conditioned)
 
 
+### bad_residuals
+Solves the laplacian and computes the residual to estimate error. Compares two implementations of residual computation one of which is numerically unstable
+
+
 ## Why I needed C++ features
 The functions in src/ directory use C++ templates to define:
  * the precision of the input array

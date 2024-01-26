@@ -39,24 +39,30 @@ void residual(const REAL b[], const REAL x[], REAL r[], int n) {
 }
 
 
-void error(const REAL xe[], const REAL x[], REAL e[], int n) {
+void bad_residual(const REAL b[], const REAL x[], REAL r[], int n) {
+	bad_action<REAL>(x, r, n);
+
 	for (int i = 0; i < n; ++i) {
-		e[i] = xe[i] - x[i];
+		r[i] = b[i] - r[i];
 	}
 }
 
 
 int main() {
-	printf("n,residual,error\n");
+	printf("n,residual,bad_residual\n");
 
 
 	for (int n = 10; n <= NMAX; ++n) {
 		setup(xe, b, n);
 		thomas<REAL>(b, diag, x, n);
-		residual(b, x, r, n);
-		error(xe, x, e, n);
 
-		printf("%d,%e,%e\n", n, norm<REAL>(r,n), norm<REAL>(e,n));
+		printf("%d,", n);
+
+		residual(b, x, r, n);
+		printf("%e,", norm<REAL>(r,n));
+
+		bad_residual(b, x, r, n);
+		printf("%e\n", norm<REAL>(r,n));
 	}
 
 
