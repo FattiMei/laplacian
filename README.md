@@ -10,7 +10,7 @@ By solving with a known solution, we measure the norm of the residuals and the e
 ## Dependencies
  * C++ compiler (> C++11)
  * python + pandas + matplotlib for visualizing the results of the experiments
- * (google benchmark)[https://github.com/google/benchmark] for comparing the performance of different methods
+ * [google benchmark](https://github.com/google/benchmark) for comparing the performance of different methods
 
 
 ## Experiments
@@ -23,10 +23,15 @@ Solves the laplacian and computes the residual to estimate error. Compares two i
 
 ### `solvers.cpp`
 Compares the numerical error of different solvers, variations of:
- * thomas algorithm (for tridiagonal matrices)
+ * [thomas algorithm](link)
  * multifrontal algorithm
 the solvers can compute intermediate results using a better precision to reduce numerical errors (see section ..)
 
+### `refinement.cpp`
+Uses a tecnique called [iterative refinement](link) for improving a solution from a direct method. Can potentially solve a system exactly to machine precision
+
+
+## Benchmarks (to be done)
 
 ## Why I needed C++ features
 The functions in src/ directory use C++ templates to define:
@@ -37,6 +42,8 @@ such structure sacrifices efficiency in compilation for correctness of the imple
 
 
 ## Multiprecision
-The work was naturally shaped into multiprecision algorithms. When eliminating rows in the laplacian matrix, the diagonal stores the iterates of the map f(x) = 2 - 1/x
+When eliminating rows in the laplacian matrix, the diagonal stores the iterates of the map f(x) = 2 - 1/x. Since the process is accumulating errors, is convenient to compute the iterates in double precisions, while storing intermediate results in single precision. This is the point of multiprecision: using fast and coarse arithmetic for converging to the solution, while computing accurate results only when necessary.
 
-Since the process is accumulating errors, is convenient to compute the iterates in double precisions, while storing intermediate results in single precision. This is an instance of multiprecision thinking: using fast and coarse arithmetic for converging to the solution of the problem, while computing accurate results only when necessary. The GPU architectures favours this approach because the reference floating point precision is fp32 and the fp64 arithmetic is very slow. On modern cpus there is not much cost difference in using floats over doubles, the benchmarks speak.
+
+### Which architectures benefit from multiprecision
+As january 2024 most gpu architecture favours lower precision computation because they provide more fp32 alus than fp64 ones. On modern cpus the difference between single and double precision is negligible at least for this specific application (see benchmarks).

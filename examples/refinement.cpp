@@ -3,18 +3,43 @@
 #include "laplacian.h"
 
 
+#ifndef NMAX
+#define NMAX 10000
+#endif
 
 
-void setup(float xe[], float b[], int n) {
+#ifndef ITMAX
+#define ITMAX 100
+#endif
+
+
+#ifndef REAL
+#define REAL float
+#endif
+
+
+REAL xe[NMAX];
+REAL x[NMAX];
+REAL b[NMAX];
+REAL r[NMAX];
+REAL diag[NMAX];
+
+
+void setup(REAL xe[], REAL b[], int n) {
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_real_distribution<REAL> distribution(-1.0, 1.0);
+
 	for (int i = 0; i < n; ++i) {
-		xe[i] = 1.0;
+		xe[i] = distribution(gen);
 	}
 
-	action<double>(xe, b, n);
+	action<REAL>(xe, b, n);
 }
 
 
-void residual(const float b[], const float x[], float r[], int n) {
+void residual(const REAL b[], const REAL x[], REAL r[], int n) {
+	// the whole point of iterative refinement is computing a very precise correction
 	action<double>(x, r, n);
 
 	for (int i = 0; i < n; ++i) {
@@ -23,43 +48,28 @@ void residual(const float b[], const float x[], float r[], int n) {
 }
 
 
-void error(float xe[], float x[], float e[], int n) {
-	for (int i = 0; i < n; ++i) {
-		e[i] = xe[i] - x[i];
-	}
-}
-
-
-#define N 10000
-
-
-float xe[N];
-float x[N];
-float b[N];
-float r[N];
-float correction[N];
-float diag[N];
-
-
 int main(int argc, char *argv[]) {
-	setup(xe, b, N);
-	thomas<float>(b, diag, x, N);
+	setup(xe, b, NMAX);
+	thomas<REAL>(b, diag, x, NMAX);
 
 
-	printf("n,err\n");
+	printf("n,residual\n");
 
-	for (int it = 0; it < 100; ++it) {
-		residual(b, x, r, N);
-		printf("%d,%e\n", it, norm<float>(r,N));
+	REAL residual_norm;
+	int it = 0;
 
+	do {
+		residual(b, x, r, NMAX);
+		residual_norm = norm<REAL>(r, NMAX);
 
-		// refinement
-		thomas<float>(r, diag, correction, N);
+		thomas<REAL>(r, diag, correction, NMAX);
 
-		for (int i = 0; i < N; ++i) {
+		for (int i = 0; i < NMAX; ++i) {
 			x[i] += correction[i];
 		}
-	}
+
+		++it;
+	} while (it < ITMAX && residual_norm < 1e-06);
 
 
 	return 0;
