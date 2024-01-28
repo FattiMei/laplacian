@@ -23,15 +23,21 @@ Solves the laplacian and computes the residual to estimate error. Compares two i
 
 ### `solvers.cpp`
 Compares the numerical error of different solvers, variations of:
- * [thomas algorithm](link)
+ * [thomas algorithm](https://en.wikipedia.org/wiki/Tridiagonal_matrix_algorithm)
  * multifrontal algorithm
 the solvers can compute intermediate results using a better precision to reduce numerical errors (see section ..)
 
 ### `refinement.cpp`
-Uses a tecnique called [iterative refinement](link) for improving a solution from a direct method. Can potentially solve a system exactly to machine precision
+Uses a tecnique called [iterative refinement](https://en.wikipedia.org/wiki/Iterative_refinement) for improving a solution from a direct method. Can potentially solve a system exactly to machine precision
 
 
-## Benchmarks (to be done)
+## Benchmarks
+
+### `multiprecision.cpp`
+Compares the execution times of solvers computing intermediate results in higher precision
+
+### `multifrontal.cpp`
+Compares serial thomas algorithm and parallel multifrontal algorithm, the latter being twice as fast with two threads available
 
 ## Why I needed C++ features
 The functions in src/ directory use C++ templates to define:
