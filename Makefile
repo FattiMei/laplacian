@@ -1,47 +1,35 @@
-BUILD_DIR = ./build
-EXP_DIR   = ./examples
-SRC_DIR   = ./src
-BENCH_DIR = ./benchmark
-
-
-CC = g++
-PYTHON = python3.11
-INCFLAGS = -I $(SRC_DIR)
-OPTFLAGS = -O2 -fopenmp
-
-
-LIBS += -lm
+CXX = g++
+CXXFLAGS = -Wall -Werror -fopenmp
+LIBS = -lm
+OPTFLAGS = -O2
 BENCHFLAGS = -lbenchmark -lpthread
+INCLUDE = -I ./src
 
 
-SRCS = $(wildcard $(SRC_DIR)/*.h)
+sources    = $(wildcard src/*.h) 
+examples   = $(wildcard examples/*.cpp)
+benchmarks = $(wildcard benchmarks/*.cpp)
 
 
-norm: build $(SRCS) $(EXP_DIR)/norms.cpp
-	$(CC) $(INCFLAGS) $(OPTFLAGS) -o $(BUILD_DIR)/$@ $(EXP_DIR)/norms.cpp $(LIBS)
+targets += $(patsubst %.cpp,build/%,$(examples))
+targets += $(patsubst %.cpp,build/%,$(benchmarks))
 
 
-solve: build $(SRCS) $(EXP_DIR)/solving.cpp
-	$(CC) $(INCFLAGS) $(OPTFLAGS) -o $(BUILD_DIR)/$@ $(EXP_DIR)/solving.cpp $(LIBS)
+all: $(targets)
 
 
-residuals: build $(SRCS) $(EXP_DIR)/errors_and_residuals.cpp
-	$(CC) $(INCFLAGS) $(OPTFLAGS) -o $(BUILD_DIR)/$@ $(EXP_DIR)/errors_and_residuals.cpp $(LIBS)
+build/examples/%: examples/%.cpp
+	$(CXX) $(INCLUDE) $(CXXFLAGS) $(OPTFLAGS) -o $@ $^ $(LIBS)
 
 
-refine: build $(SRCS) $(EXP_DIR)/refinement.cpp
-	$(CC) $(INCFLAGS) $(OPTFLAGS) -o $(BUILD_DIR)/$@ $(EXP_DIR)/refinement.cpp $(LIBS)
+build/benchmarks/%: benchmarks/%.cpp
+	$(CXX) $(INCLUDE) $(CXXFLAGS) $(OPTFLAGS) -o $@ $^ $(BENCHFLAGS) $(LIBS)
 
 
-# still need improvement to avoid recompilation of the experiments
-report: build residuals
-	$(BUILD_DIR)/residuals > $(BUILD_DIR)/errors_and_residuals.csv
-	$(PYTHON) report.py $(BUILD_DIR)/errors_and_residuals.csv
+examples/%.cpp:   $(sources)
+benchmarks/%.cpp: $(sources)
 
 
-bench: build
-	$(CC) $(INCFLAGS) $(OPTFLAGS) -o $(BUILD_DIR)/$@ $(BENCH_DIR)/storeless.cpp $(LIBS) $(BENCHFLAGS)
-	$(BUILD_DIR)/bench
-
-build:
-	mkdir -p $(BUILD_DIR)
+# report: build residuals
+# 	$(BUILD_DIR)/residuals > $(BUILD_DIR)/errors_and_residuals.csv
+# 	$(PYTHON) report.py $(BUILD_DIR)/errors_and_residuals.csv

@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <random>
 #include "norm.h"
 #include "laplacian.h"
 
@@ -22,6 +23,7 @@ REAL xe[NMAX];
 REAL x[NMAX];
 REAL b[NMAX];
 REAL r[NMAX];
+REAL correction[NMAX];
 REAL diag[NMAX];
 
 
