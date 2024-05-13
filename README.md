@@ -16,16 +16,20 @@ By solving with a known solution, we measure the norm of the residuals and the e
 ## Experiments
 
 ### `errors_and_residuals.cpp`
+![plot](./img/errors_and_residuals.png)
 Solves the laplacian from a known solution (vector of ones), computes the norm of the residual and the norm of the error. Demonstrate how residuals norms are less useful to estimate the error when the matrix gets bigger (and more ill conditioned)
 
 ### `bad_residuals.cpp`
+![plot](./img/bad_residuals.png)
 Solves the laplacian and computes the residual to estimate error. Compares two implementations of residual computation one of which is numerically unstable
 
 ### `solvers.cpp`
+![plot](./img/solvers.png)
 Compares the numerical error of different solvers, variations of:
  * [thomas algorithm](https://en.wikipedia.org/wiki/Tridiagonal_matrix_algorithm)
  * multifrontal algorithm
-the solvers can compute intermediate results using a better precision to reduce numerical errors (see section ..)
+
+the solvers can compute intermediate results using a better precision to reduce numerical errors. Multifrontal solvers suffer from noise in this case.
 
 ### `refinement.cpp`
 Uses a tecnique called [iterative refinement](https://en.wikipedia.org/wiki/Iterative_refinement) for improving a solution from a direct method. Can potentially solve a system exactly to machine precision

@@ -24,7 +24,12 @@ def report(csv_path):
     plt.title(title)
 
     for col in columns[1:]:
-       plt.semilogy(df[columns[0]], df[col], label = col)
+        if col.startswith('multifrontal'):
+            alpha = 0.5
+        else:
+            alpha = 1.0
+
+        plt.semilogy(df[columns[0]], df[col], label = col, alpha = alpha)
 
 
     plt.legend()
