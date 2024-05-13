@@ -5,8 +5,6 @@ OPTFLAGS   = -O2
 BENCHFLAGS = -lbenchmark -lpthread
 INCLUDE    = -I ./src
 
-PYTHON = python3.8
-
 
 sources    = $(wildcard src/*.h) 
 examples   = $(wildcard examples/*.cpp)
@@ -30,7 +28,7 @@ build/benchmarks/%: benchmarks/%.cpp $(sources)
 
 report: $(exe)
 	$^ > build/report.csv
-	$(PYTHON) report.py build/report.csv
+	./report.py build/report.csv
 
 
 .PHONY: clean
