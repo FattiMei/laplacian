@@ -5,16 +5,24 @@ import matplotlib.pyplot as plt
 
 def report(csv_path):
     with open(csv_path, 'r') as file:
-        header = file.readline().strip()
+        title  = file.readline().strip()
 
-    df = pd.read_csv(csv_path)
+        if not title.startswith('#'):
+            header = title
+        else:
+            title  = title[len('# '):]
+            header = file.readline().strip()
+
+
+    df = pd.read_csv(csv_path, comment = '#')
     columns = header.split(',')
 
 
     plt.figure()
+    plt.title(title)
 
     for col in columns[1:]:
-       plt.semilogy(df[columns[0]], df[col], label = col, linewidth = 0.5)
+       plt.semilogy(df[columns[0]], df[col], label = col)
 
 
     plt.legend()

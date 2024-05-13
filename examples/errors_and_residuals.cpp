@@ -47,8 +47,8 @@ void error(const REAL xe[], const REAL x[], REAL e[], int n) {
 
 
 int main() {
+	printf("# Error vs. residual norms\n");
 	printf("n,residual,error\n");
-
 
 	for (int n = 10; n <= NMAX; ++n) {
 		setup(xe, b, n);
@@ -58,7 +58,6 @@ int main() {
 
 		printf("%d,%e,%e\n", n, norm<REAL>(r,n), norm<REAL>(e,n));
 	}
-
 
 	return 0;
 }

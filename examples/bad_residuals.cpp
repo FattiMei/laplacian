@@ -49,6 +49,7 @@ void bad_residual(const REAL b[], const REAL x[], REAL r[], int n) {
 
 
 int main() {
+	printf("# Two methods for computing the residual\n");
 	printf("n,residual,bad_residual\n");
 
 

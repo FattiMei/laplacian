@@ -55,6 +55,7 @@ int main(int argc, char *argv[]) {
 	thomas<REAL>(b, diag, x, NMAX);
 
 
+	printf("# Application of iterative refinement\n");
 	printf("n,residual\n");
 
 	REAL residual_norm;

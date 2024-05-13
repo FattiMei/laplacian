@@ -43,6 +43,7 @@ void error(REAL xe[], REAL x[], REAL e[], int n) {
 
 
 int main(int argc, char *argv[]) {
+	printf("# Solvers comparison\n");
 	printf("n,thomas(fp32),thomas(fp64),multifrontal(fp32),multifrontal(fp64)\n");
 
 	setup(xe, b, NMAX);
